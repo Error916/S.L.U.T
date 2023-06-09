@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+grep -Eiorh '([[:alnum:]_.-]+@[[:alnum:]_.-]+?\.[[:alpha:].]{2,6})' "$@" "$1" | sort | uniq > emails.txt
