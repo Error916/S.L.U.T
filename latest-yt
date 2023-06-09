@@ -1,0 +1,15 @@
+#!/bin/sh
+# Download most recent video from YouTube channel
+set -e
+OUTPUT_DIR="$HOME/Downloads"
+
+if [ "$1" = "" ]; then
+	printf "Channel ID: "
+	read -r CHANNEL_ID
+else
+	CHANNEL_ID="$1"
+fi
+
+VID_ID="$(curl -s "https://www.youtube.com/feeds/videos.xml?channel_id=$CHANNEL_ID" | head -n 14 | tail -n 1 | sed -e 's/^.*video://; s/<.*//')"
+mkdir -p "$OUTPUT_DIR"
+yt-dlp "$VID_ID" -o "$OUTPUT_DIR/%(title)s [%(id)s].%(ext)s"

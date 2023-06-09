@@ -1,0 +1,18 @@
+#!/bin/sh
+# Sorts files in downloads directory
+download=$(xdg-user-dir DOWNLOAD)
+
+for dir in images videos audio archives books scripts; do
+	[ -d $download/$dir ] && continue || mkdir -p $download/$dir
+done
+
+for i in $download/*; do
+	case "$i" in
+		*tar|*zip|*xz) mv "$i" "$download/archives/" ;;
+		*png|*jpg|*jpeg) mv "$i" "$download/images/" ;;
+		*mp3|*m4a|*flac|*ogg|*acc) mv "$i" "$download/audio/" ;;
+		*mp4|*webm|*mov) mv "$i" "$download/videos/" ;;
+		*pdf|*epub|*chm) mv "$i" "$download/books/" ;;
+		*sh|*py) mv "$i" "$download/scripts" ;;
+	esac
+done

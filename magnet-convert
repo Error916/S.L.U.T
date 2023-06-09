@@ -1,0 +1,16 @@
+#!/bin/sh
+# Convert magnet links to BitTorrent files
+
+# Make sure the input stream is a magnet link
+if ! echo "$1" | grep -q "^magnet:?" \
+|| ! echo "$1" | grep -q "xt=urn:bt[im]h:"; then
+	>&2 echo "Error: Not a valid magnet URL.\n"
+	exit 1
+fi
+
+# Determine the filename for the torrent - use hash if no filename is detected
+fhash=$(echo "$1" | sed -n 's/.*xt=urn:bt[im]h:\([a-fA-F0-9]*\)&.*/\1/p')
+echo "$1" | grep -q "dn=" && fname=$(echo -- "$1" | grep -o "dn=.*" | sed 's/dn=//') || fname="bt-hash-$fhash"
+
+# Create the torrent file from the magnet link
+echo "d10:magnet-uri${#1}:${1}e" > "$fname.torrent"

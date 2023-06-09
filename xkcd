@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+viewer=sxiv
+dest_img=/tmp/xkcd_image.png
+
+# when random is not mention it defaults to latest
+json_url='https://xkcd.com/info.0.json'
+
+while getopts 'hrv:' opt; do
+	case $opt in
+		h)  	printf "Usage: xkcd [OPTION]\ndefault: fetch last comic\n    -r fetch a random comic\n    -h show this message\n    -v select a different image viewer\n"; exit;
+			;;
+		r)
+			printf 'Getting comic count...\n' >&2
+			num=$(curl -sL 'https://xkcd.com/info.0.json' | jq -r '.num')
+			printf 'Fetching random comic...\n' >&2
+			json_url="https://xkcd.com/$(shuf -i 1-$num -n 1)/info.0.json"
+			;;
+		v)	viewer=${OPTARG}
+			;;
+	esac
+done
+
+printf 'Downloading comic...\n' >&2
+image=$(curl -sL "$json_url" | jq -r '.img')
+
+curl -sL "$image" -o "$dest_img"
+$viewer "$dest_img"
+rm -v "$dest_img"
