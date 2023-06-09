@@ -1,0 +1,19 @@
+#!/bin/sh
+
+LOCATION="$HOME/pix/screenshots"
+STAMP="%m-%d_%H:%M:%S"
+QUALITY=100
+
+cmd_full() {
+	scrot -e 'xclip -selection clipboard -t image/png -i $f' -q $QUALITY -F $LOCATION/$STAMP.jpg
+}
+
+cmd_selection() {
+	scrot -fs -e 'xclip -selection clipboard -t image/png -i $f' -q $QUALITY -F $LOCATION/$STAMP.jpg 
+}
+
+if [[ $1 == 'f' || $1 == 'full' ]]; then
+	cmd_full
+else
+	cmd_selection
+fi
