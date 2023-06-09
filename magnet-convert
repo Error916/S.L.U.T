@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # Convert magnet links to BitTorrent files
 
 # Make sure the input stream is a magnet link

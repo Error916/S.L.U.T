@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # Sorts files in downloads directory
 download=$(xdg-user-dir DOWNLOAD)
 

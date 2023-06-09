@@ -1,0 +1,42 @@
+#!/usr/bin/env sh
+
+##  nginx config file at /etc/nginx/nginx.conf:
+# worker_processes auto;
+# events {
+# 	worker_connections 1024;
+# }
+#
+# http {
+# 	default_type application/octet-stream;
+# 	root /usr/share/nginx/ ;
+#
+# 	server {
+# 		listen 625;
+# 		listen [::]:625 default_server;
+# 		server_name localhost;
+# 		root /usr/share/nginx/files/;
+# 		autoindex on;
+#
+# 		location / {
+#
+# 		}
+#
+# 		location /files/ {
+# 			alias /usr/share/nginx/files/;
+# 		}
+#
+# 	}
+#
+# 	types {
+# 		text/html html;
+# 	}
+# }
+
+# Start nginx
+sudo systemctl start nginx
+
+# Put link of file into proper nginx location
+sudo ln -sf $(readlink -f $1) /usr/share/nginx/files/.
+
+# Get IPv6 address and print it
+ip a | grep inet6 | grep global | head -n 1 | awk '{ print $2 }' | sed 's#/.*##' | sed 's#^#[#' | sed "s%$%]:625/$(basename $1)%"

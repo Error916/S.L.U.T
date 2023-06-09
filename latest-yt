@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # Download most recent video from YouTube channel
 set -e
 OUTPUT_DIR="$HOME/Downloads"

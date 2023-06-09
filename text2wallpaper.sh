@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 # Variables
 DEEP_AI_TEXT_2_IMAGE_API_KEY="${DEEP_AI_TEXT_2_IMAGE_API_KEY:-quickstart-QUdJIGlzIGNvbWluZy4uLi4K}"
